@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Lista de Tareas</h1>
+    <input type="text" id="taskInput" placeholder="Escribe una tarea...">
+    <select id="prioritySelect">
+        <option value="high">Alta</option>
+        <option value="medium">Media</option>
+        <option value="low">Baja</option>
+    </select>
+    <button onclick="agregarTarea()">Agregar Tarea</button>
+    <div class="task-list" id="taskList"></div>
+    <script>
+        function agregarTarea() {
+            const tareaInput = document.getElementById('taskInput').value;
+            const prioridad = document.getElementById('prioritySelect').value;
+
+            if (tareaInput.trim() === '') return;
+
+            const tareaDiv = document.createElement('div');
+            tareaDiv.classList.add('task', prioridad);
+            tareaDiv.innerHTML = `
+                <span>${tareaInput}</span>
+                <button class="delete-btn" onclick="eliminarTarea(this, '${prioridad}')">Eliminar</button>
+            `;
+            document.getElementById('taskList').appendChild(tareaDiv);
+            document.getElementById('taskInput').value = '';
+        }
+        function eliminarTarea(boton, prioridad) {
+            if (prioridad === 'high') {
+                const confirmado = confirm('¿Estás seguro de que quieres eliminar esta tarea de prioridad alta?');
+                if (!confirmado) return;
+            }
+            boton.parentElement.remove();
+        }
+    </script>
+</body>
+</html>
